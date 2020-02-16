@@ -1,0 +1,12 @@
+# Environments
+env/
+.env
+
+# Unit test / coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
