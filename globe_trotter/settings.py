@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'trips'
+    'trips',
+    'graphene_django'
 ]
 
 MIDDLEWARE = [
@@ -73,6 +74,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'globe_trotter.wsgi.application'
+
+GRAPHENE = {
+    'SCHEMA': 'trips.schema'
+}
 
 
 # Database
