@@ -1,0 +1,125 @@
+[
+  {
+    "model": "trips.user",
+    "pk": 1,
+    "fields": {
+      "email": "John@gmail.com",
+      "name": "John",
+      "api_key": "b9aead4b955bccb5c57ef830580f3de5"
+    }
+  },
+  {
+    "model": "trips.trip",
+    "pk": 1,
+    "fields": {
+      "name": "Spring Break",
+      "origin": "Denver, CO, USA",
+      "origin_abbrev": "DEN",
+      "origin_lat": "39.7392",
+      "origin_long": "104.9903",
+      "start_date": "2020-03-16",
+      "end_date": "2020-03-23",
+      "user": 1
+    }
+  },
+  {
+    "model": "trips.destination",
+    "pk": 1,
+    "fields": {
+      "location": "Barcelona, Spain",
+      "abbrev": "BCN",
+      "lat": "41.3851",
+      "long": "2.1734"
+    }
+  },
+  {
+    "model": "trips.destination",
+    "pk": 2,
+    "fields": {
+      "location": "Prague, Czech Republic",
+      "abbrev": "PRG",
+      "lat": "50.0755",
+      "long": "14.4378"
+    }
+  },
+  {
+    "model": "trips.tripdestination",
+    "pk": 1,
+    "fields": {
+      "trip": 1,
+      "destination": 1
+    }
+  },
+  {
+    "model": "trips.tripdestination",
+    "pk": 2,
+    "fields": {
+      "trip": 1,
+      "destination": 2
+    }
+  },
+  {
+    "model": "trips.date",
+    "pk": 1,
+    "fields": {
+      "date": "2020-03-16",
+      "trip_destination": 1
+    }
+  },
+  {
+    "model": "trips.date",
+    "pk": 2,
+    "fields": {
+      "date": "2020-03-17",
+      "trip_destination": 1
+    }
+  },
+  {
+    "model": "trips.date",
+    "pk": 3,
+    "fields": {
+      "date": "2020-03-18",
+      "trip_destination": 1
+    }
+  },
+  {
+    "model": "trips.date",
+    "pk": 4,
+    "fields": {
+      "date": "2020-03-19",
+      "trip_destination": 1
+    }
+  },
+  {
+    "model": "trips.date",
+    "pk": 5,
+    "fields": {
+      "date": "2020-03-20",
+      "trip_destination": 2
+    }
+  },
+  {
+    "model": "trips.date",
+    "pk": 6,
+    "fields": {
+      "date": "2020-03-21",
+      "trip_destination": 2
+    }
+  },
+  {
+    "model": "trips.date",
+    "pk": 7,
+    "fields": {
+      "date": "2020-03-22",
+      "trip_destination": 2
+    }
+  },
+  {
+    "model": "trips.date",
+    "pk": 8,
+    "fields": {
+      "date": "2020-03-23",
+      "trip_destination": 2
+    }
+  }
+]
