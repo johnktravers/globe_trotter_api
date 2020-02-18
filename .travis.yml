@@ -7,3 +7,5 @@ install:
 - pipenv install
 script:
 - python manage.py test
+before_script:
+- psql -c 'create database globe_trotter_api_test;' -U postgres
