@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 import environ
 env = environ.Env(
   DEBUG=(bool, False)
@@ -19,6 +20,8 @@ env = environ.Env(
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+django_heroku.settings(locals())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/

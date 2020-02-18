@@ -11,6 +11,8 @@ graphene-django = "*"
 psycopg2 = "*"
 psycopg2-binary = "*"
 django-environ = "*"
+gunicorn = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.8"
