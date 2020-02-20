@@ -2,7 +2,7 @@ import graphene
 from graphene import ObjectType
 
 from graphene_django.types import DjangoObjectType
-from trips.models import User, Trip, Destination, TripDestinationDate, Activity
+from trips.models import User, Trip, Destination, TripDestination, Activity
 
 class UserType(DjangoObjectType):
     class Meta:
@@ -16,9 +16,9 @@ class DestinationType(DjangoObjectType):
     class Meta:
         model = Destination
 
-class TripDestinationDateType(DjangoObjectType):
+class TripDestinationType(DjangoObjectType):
     class Meta:
-        model = TripDestinationDate
+        model = TripDestination
 
 class ActivityType(DjangoObjectType):
     class Meta:
