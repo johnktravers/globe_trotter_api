@@ -17,8 +17,6 @@
       "origin_abbrev": "DEN",
       "origin_lat": "39.7392",
       "origin_long": "104.9903",
-      "start_date": "2020-03-16",
-      "end_date": "2020-03-23",
       "user": 1
     }
   },
@@ -53,73 +51,31 @@
     }
   },
   {
-    "model": "trips.tripdestinationdate",
+    "model": "trips.tripdestination",
     "pk": 1,
     "fields": {
-      "date": "2020-03-16",
+      "start_date": "2020-03-16",
+      "end_date": "2020-03-19",
       "trip": 1,
       "destination": 1
     }
   },
   {
-    "model": "trips.tripdestinationdate",
+    "model": "trips.tripdestination",
     "pk": 2,
     "fields": {
-      "date": "2020-03-17",
+      "start_date": "2020-03-19",
+      "end_date": "2020-03-23",
       "trip": 1,
-      "destination": 1
+      "destination": 2
     }
   },
   {
-    "model": "trips.tripdestinationdate",
+    "model": "trips.tripdestination",
     "pk": 3,
     "fields": {
-      "date": "2020-03-18",
-      "trip": 1,
-      "destination": 1
-    }
-  },
-  {
-    "model": "trips.tripdestinationdate",
-    "pk": 4,
-    "fields": {
-      "date": "2020-03-19",
-      "trip": 1,
-      "destination": 2
-    }
-  },
-  {
-    "model": "trips.tripdestinationdate",
-    "pk": 5,
-    "fields": {
-      "date": "2020-03-20",
-      "trip": 1,
-      "destination": 2
-    }
-  },
-  {
-    "model": "trips.tripdestinationdate",
-    "pk": 6,
-    "fields": {
-      "date": "2020-03-21",
-      "trip": 1,
-      "destination": 3
-    }
-  },
-  {
-    "model": "trips.tripdestinationdate",
-    "pk": 7,
-    "fields": {
-      "date": "2020-03-22",
-      "trip": 1,
-      "destination": 3
-    }
-  },
-  {
-    "model": "trips.tripdestinationdate",
-    "pk": 8,
-    "fields": {
-      "date": "2020-03-23",
+      "start_date": "2020-03-23",
+      "end_date": "2020-03-30",
       "trip": 1,
       "destination": 3
     }
@@ -131,17 +87,27 @@
       "name": "Basílica de la Sagrada Familia",
       "address": "Carrer de Mallorca, 401, 08013 Barcelona, Spain",
       "category": "Landmarks & Historical Buildings",
-      "trip_destination_date": 1
+      "date": "2020-03-17",
+      "rating": 4.5,
+      "image": "https://s3-media1.fl.yelpcdn.com/bphoto/WKOIcnV-nnDFSWFYVyts5g/o.jpg",
+      "lat": "41.4035949887",
+      "long": "2.17435520142",
+      "trip_destination": 1
     }
   },
   {
     "model": "trips.activity",
     "pk": 2,
     "fields": {
-      "name": "Las Ramblas",
-      "address": "Paseo la Rambla, 31, 08002 Barcelona, Spain",
-      "category": "Local Flavor",
-      "trip_destination_date": 3
+      "name": "Castell de Montjuïc",
+      "address": "Carretera de Montjuïc, 66, 08038 Barcelona, Spain",
+      "category": "Castles",
+      "date": "2022-03-18",
+      "rating": 4.0,
+      "image": "https://s3-media1.fl.yelpcdn.com/bphoto/qvvaNwsAnLxa_g8_0IYiVA/o.jpg",
+      "lat": "41.3633333212171",
+      "long": "2.16618073941884",
+      "trip_destination": 1
     }
   },
   {
@@ -151,7 +117,12 @@
       "name": "Prague Castle",
       "address": "Pražský hrad, 119 08 Prague, Czech Republic",
       "category": "Landmarks & Historical Buildings",
-      "trip_destination_date": 4
+      "date": "2020-03-20",
+      "rating": 4.5,
+      "image": "https://s3-media2.fl.yelpcdn.com/bphoto/Z-dWN4czuAbE9YcMe6j4cg/o.jpg",
+      "lat": "50.090356",
+      "long": "14.399385",
+      "trip_destination": 2
     }
   },
   {
@@ -161,7 +132,12 @@
       "name": "Shinjuku Gyoen National Garden",
       "address": "内藤町11, Shinjuku, 東京都 〒160-0014, Japan",
       "category": "Botanical Gardens",
-      "trip_destination_date": 7
+      "date": "2020-03-29",
+      "rating": 4.5,
+      "image": "https://s3-media3.fl.yelpcdn.com/bphoto/QjOm_jpRengGcaEJZLNc5A/o.jpg",
+      "lat": "35.685174",
+      "long": "139.710049",
+      "trip_destination": 3
     }
   }
 ]
