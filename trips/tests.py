@@ -1,5 +1,6 @@
 import json
 
+
 from graphene_django.utils.testing import GraphQLTestCase
 from globe_trotter.schema import schema
 from trips.models import Trip, User, Destination, TripDestination
@@ -116,6 +117,84 @@ class TripsTestCase(GraphQLTestCase):
               }
             ]
           }
+        }
+
+        content = json.loads(response.content)
+
+        self.assertResponseNoErrors(response)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content, expected)
+
+    def test_trip_creation(self):
+        response = self.query(
+            '''
+            mutation {
+                createTrip(userApiKey: "1234", origin: "Tokyo, Japan", name: "Tokyo Trip") {
+                    trip {
+                        name
+                        origin
+                        originAbbrev
+                        originLat
+                        originLong
+                    }
+                }
+            }
+            ''',
+            op_name='Trip'
+        )
+
+        expected = {
+            "data": {
+                "createTrip": {
+                    "trip": {
+                        "name": "Tokyo Trip",
+                        "origin": "Tokyo, Japan",
+                        "originAbbrev": "TYO",
+                        "originLat": "35.6761919",
+                        "originLong": "139.6503106"
+                    }
+                }
+            }
+        }
+
+        content = json.loads(response.content)
+
+        self.assertResponseNoErrors(response)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content, expected)
+
+    def test_create_trip_no_abbrev(self):
+        response = self.query(
+            '''
+            mutation {
+                createTrip(userApiKey: "1234", origin: "saint-jean-pied-de-port, france", name: "French trip") {
+                    trip {
+                        name
+                        origin
+                        originAbbrev
+                        originLat
+                        originLong
+                    }
+                }
+            }
+            ''',
+            op_name='Trip'
+        )
+
+        expected = {
+            "data": {
+                "createTrip": {
+                    "trip": {
+                        "name": "French trip",
+                        "origin": "64220 Saint-Jean-Pied-de-Port, France",
+                        "originAbbrev": "SAI",
+                        "originLat": "43.163141",
+                        "originLong": "-1.23811"
+                    }
+                }
+            }
         }
 
         content = json.loads(response.content)
