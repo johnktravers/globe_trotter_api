@@ -141,7 +141,7 @@ class TripsTestCase(GraphQLTestCase):
                 }
             }
             ''',
-            op_name='Trip'
+            op_name='createTrip'
         )
 
         expected = {
@@ -180,7 +180,7 @@ class TripsTestCase(GraphQLTestCase):
                 }
             }
             ''',
-            op_name='Trip'
+            op_name='createTrip'
         )
 
         expected = {
@@ -192,6 +192,63 @@ class TripsTestCase(GraphQLTestCase):
                         "originAbbrev": "SAI",
                         "originLat": "43.163141",
                         "originLong": "-1.23811"
+                    }
+                }
+            }
+        }
+
+        content = json.loads(response.content)
+
+        self.assertResponseNoErrors(response)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content, expected)
+
+    def test_create_destination(self):
+        response = self.query(
+            '''
+            mutation {
+                createDestination(userApiKey: "1234", tripId: ''' + str(Trip.objects.first().id) + ''', location: "Stockholm, Sweden", startDate: "2020-03-23", endDate: "2020-03-30") {
+                    destination {
+                        location
+                        abbrev
+                        lat
+                        long
+                        tripdestinationSet {
+                            startDate
+                            endDate
+                            trip {
+                                name
+                                origin
+                                originAbbrev
+                            }
+                        }
+                    }
+                }
+            }
+            ''',
+            op_name='createDestination'
+        )
+
+        expected = {
+            "data": {
+                "createDestination": {
+                    "destination": {
+                        "location": "Stockholm, Sweden",
+                        "abbrev": "STO",
+                        "lat": "59.32932349999999",
+                        "long": "18.0685808",
+                        "tripdestinationSet": [
+                            {
+                                "startDate": "2020-03-23",
+                                "endDate": "2020-03-30",
+                                "trip": {
+                                    "name": "Spring Break",
+                                    "origin": "Denver, CO, USA",
+                                    "originAbbrev": "DEN",
+                                }
+                            }
+                        ]
                     }
                 }
             }
