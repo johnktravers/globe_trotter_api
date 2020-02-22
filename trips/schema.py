@@ -1,5 +1,4 @@
 import graphene
-import re
 
 from graphene import ObjectType, Mutation
 from graphene_django.types import DjangoObjectType
