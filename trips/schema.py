@@ -102,6 +102,28 @@ class CreateActivity(Mutation):
 
         return CreateActivity(activity=activity)
 
+class DeleteActivity(Mutation):
+    id = graphene.ID()
+    name = graphene.String()
+    address = graphene.String()
+    date = graphene.types.datetime.Date()
+    category = graphene.String()
+    rating = graphene.Float()
+    image = graphene.String()
+    lat = graphene.String()
+    long = graphene.String()
+
+    class Arguments:
+        user_api_key = graphene.String(required=True)
+        activity_id = graphene.ID(required=True)
+
+    def mutate(self, info, user_api_key, activity_id):
+        user = User.objects.get(api_key = user_api_key)
+        activity = Activity.objects.filter(trip_destination__trip__user_id=user.id).get(id=activity_id)
+        activity.delete()
+
+        return DeleteActivity(id=activity_id, name=activity.name, address=activity.address, date=activity.date, category=activity.category, rating=activity.rating, image=activity.image, lat=activity.lat, long=activity.long)
+
 class Query(ObjectType):
     all_trips = graphene.List(TripType, user_api_key=graphene.String(required=True))
 
@@ -114,3 +136,4 @@ class Mutation(ObjectType):
     create_trip = CreateTrip.Field()
     create_destination = CreateDestination.Field()
     create_activity = CreateActivity.Field()
+    delete_activity = DeleteActivity.Field()
