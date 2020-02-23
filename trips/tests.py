@@ -377,3 +377,38 @@ class TripsTestCase(GraphQLTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(content, expected)
+
+    def test_delete_trip(self):
+        response = self.query(
+            '''
+            mutation {
+                deleteTrip (userApiKey: "1234", tripId: ''' + str(Trip.objects.first().id) + ''') {
+                    name
+                    origin
+                    originAbbrev
+                    originLat
+                    originLong
+                }
+            }
+            ''',
+            op_name='createActivity'
+        )
+
+        expected = {
+            "data": {
+                "deleteTrip": {
+                    "name": "Spring Break",
+                    "origin": "Denver, CO, USA",
+                    "originAbbrev": "DEN",
+                    "originLat": "39.7392",
+                    "originLong": "104.9903"
+                }
+            }
+        }
+
+        content = json.loads(response.content)
+
+        self.assertResponseNoErrors(response)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content, expected)
