@@ -314,3 +314,66 @@ class TripsTestCase(GraphQLTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(content['errors'][0]['message'], 'Invalid location. Please try again.')
+
+    def test_create_activity(self):
+        response = self.query(
+            '''
+            mutation {
+                createActivity(userApiKey: "1234", tripDestinationId: ''' + str(TripDestination.objects.first().id) + ''', name: "Arc de Triomf", date: "2020-03-18", address: "Passeig de Sant Joan, s/n, 08010 Barcelona, Spain", category: "Landmarks & Historical Buildings", rating: 4.0, image: "https://s3-media3.fl.yelpcdn.com/bphoto/bmWXY-0so2VYI_lYv-pbVg/o.jpg", lat: 41.3910646236233, long: 2.1806213137548) {
+                    activity {
+                        name
+                        date
+                        address
+                        category
+                        rating
+                        image
+                        lat
+                        long
+                        tripDestination {
+                            trip {
+                                name
+                            }
+                            destination {
+                                location
+                                abbrev
+                            }
+                        }
+                    }
+                }
+            }
+            ''',
+            op_name='createActivity'
+        )
+
+        expected = {
+            "data": {
+                "createActivity": {
+                    "activity": {
+                        "name": "Arc de Triomf",
+                        "date": "2020-03-18",
+                        "address": "Passeig de Sant Joan, s/n, 08010 Barcelona, Spain",
+                        "category": "Landmarks & Historical Buildings",
+                        "rating": 4,
+                        "image": "https://s3-media3.fl.yelpcdn.com/bphoto/bmWXY-0so2VYI_lYv-pbVg/o.jpg",
+                        "lat": "41.3910646236233",
+                        "long": "2.1806213137548",
+                        "tripDestination": {
+                            "trip": {
+                                "name": "Spring Break"
+                            },
+                            "destination": {
+                                "location": "Barcelona, Spain",
+                                "abbrev": "BCN"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        content = json.loads(response.content)
+
+        self.assertResponseNoErrors(response)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content, expected)
