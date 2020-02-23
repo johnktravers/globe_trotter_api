@@ -240,6 +240,46 @@ Response body example:
 }
 ```
 
+#### deleteActivity Mutation
+
+This mutation deletes an activity by `activityId` for an authenticated user. All activity attributes except relationships to other tables can be added to the mutation response.
+
+Request body example:
+```
+mutation {
+  deleteActivity (userApiKey: "<USER_API_KEY>", activityId: 2) {
+    id
+    name
+    address
+    date
+    category
+    rating
+    image
+    lat
+    long
+  }
+}
+```
+
+Response body example:
+```
+{
+  "data": {
+    "deleteActivity": {
+      "id": "2",
+      "name": "Castell de Montjuïc",
+      "address": "Carretera de Montjuïc, 66, 08038 Barcelona, Spain",
+      "date": "2022-03-18",
+      "category": "Castles",
+      "rating": 4.0,
+      "image": "https://s3-media1.fl.yelpcdn.com/bphoto/qvvaNwsAnLxa_g8_0IYiVA/o.jpg",
+      "lat": "41.3633333212171",
+      "long": "2.16618073941884"
+    }
+  }
+}
+```
+
 ### Yelp Activities RESTful Endpoint
 
 This endpoint is used to retrieve and format the top 20 landmarks for a given latitude and longitude. The endpoint can be accessed by sending a `GET` request to `/api/v1/yelp_activities/?lat=<LATITUDE>&long=<Longitude>`. No user authentication is necessary.
