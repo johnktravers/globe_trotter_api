@@ -28,7 +28,7 @@ Now create, migrate, and seed the development database by executing these comman
 
 ```
 psql
-CREATE DATABASE globe_trotter_api_dev
+CREATE DATABASE globe_trotter_api_dev;
 \q
 python3 manage.py migrate
 python3 manage.py loaddata trips.json
@@ -237,6 +237,100 @@ Response body example:
       }
     }
   }
+}
+```
+
+#### createActivity Mutation
+
+This mutation creates an activity for a destination on an authenticated user's trip given the `tripDestinationId`, `date`, activity information. See the table above for attributes that can be added to the mutation.
+
+Request body example:
+```
+mutation {
+  createActivity(userApiKey: "<USER_API_KEY>", tripDestinationId: 1, name: "Arc de Triomf", date: "2020-03-18", address: "Passeig de Sant Joan, s/n, 08010 Barcelona, Spain", category: "Landmarks & Historical Buildings", rating: 4.0, image: "https://s3-media3.fl.yelpcdn.com/bphoto/bmWXY-0so2VYI_lYv-pbVg/o.jpg", lat: 41.3910646236233, long: 2.1806213137548) {
+    activity {
+      name
+      date
+      address
+      category
+      rating
+      image
+      lat
+      long
+      tripDestination {
+        trip {
+          name
+        }
+        destination {
+          location
+          abbrev
+        }
+      }
+    }
+  }
+}
+```
+
+Response body example:
+```
+{
+  "data": {
+    "createActivity": {
+      "activity": {
+        "name": "Arc de Triomf",
+        "date": "2020-03-18",
+        "address": "Passeig de Sant Joan, s/n, 08010 Barcelona, Spain",
+        "category": "Landmarks & Historical Buildings",
+        "rating": 4,
+        "image": "https://s3-media3.fl.yelpcdn.com/bphoto/bmWXY-0so2VYI_lYv-pbVg/o.jpg",
+        "lat": "41.3910646236233",
+        "long": "2.1806213137548",
+        "tripDestination": {
+          "trip": {
+            "name": "Spring Break"
+          },
+          "destination": {
+            "location": "Barcelona, Spain",
+            "abbrev": "BCN"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+#### deleteTrip Mutation
+
+This mutation deletes a trip and all resources belonging to that trip  by `tripId` for an authenticated user. All trip attributes except relationships to other tables can be added to the mutation response.
+
+Request body example:
+```
+mutation {
+    deleteTrip (userApiKey: "<USER_API_KEY>", tripId: 5) {
+        id
+        name
+        origin
+        originAbbrev
+        originLat
+        originLong
+    }
+}
+```
+
+Response body example:
+```
+{
+    "data": {
+        "deleteTrip": {
+            "id": "5",
+            "name": "Celebratory Adventure",
+            "origin": "London, UK",
+            "originAbbrev": "LON",
+            "originLat": "51.5073509",
+            "originLong": "-0.1277583"
+        }
+    }
 }
 ```
 
