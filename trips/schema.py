@@ -2,6 +2,7 @@ import graphene
 
 from graphene import ObjectType, Mutation
 from graphene_django.types import DjangoObjectType
+from graphql import GraphQLError
 from trips.models import User, Trip, Destination, TripDestination, Activity
 from trips.services import get_coordinates, get_airport_code
 
@@ -33,18 +34,20 @@ class CreateTrip(Mutation):
         name = graphene.String(required=True)
         origin = graphene.String(required=True)
 
-
     def mutate(self, info, user_api_key, name, origin):
         user = User.objects.get(api_key = user_api_key)
         trip = Trip(name=name, user=user)
         response = get_coordinates(origin)
-        trip.origin = response[0]['formatted_address']
-        trip.origin_lat = response[0]['geometry']['location']['lat']
-        trip.origin_long = response[0]['geometry']['location']['lng']
-        trip.origin_abbrev = get_airport_code(trip.origin)
-        trip.save()
 
-        return CreateTrip(trip=trip)
+        if len(response) > 0:
+            trip.origin = response[0]['formatted_address']
+            trip.origin_lat = response[0]['geometry']['location']['lat']
+            trip.origin_long = response[0]['geometry']['location']['lng']
+            trip.origin_abbrev = get_airport_code(trip.origin)
+            trip.save()
+            return CreateTrip(trip=trip)
+        else:
+            raise GraphQLError('Invalid location. Please try again.')
 
 class CreateDestination(Mutation):
     destination = graphene.Field(DestinationType)
@@ -61,18 +64,20 @@ class CreateDestination(Mutation):
         trip = Trip.objects.filter(user_id=user.id).get(id=trip_id)
         destination = Destination()
         response = get_coordinates(location)
-        destination.location = response[0]['formatted_address']
-        destination.lat = response[0]['geometry']['location']['lat']
-        destination.long = response[0]['geometry']['location']['lng']
-        destination.abbrev = get_airport_code(destination.location)
-        destination.save()
 
-        trip_destination = TripDestination(start_date=start_date, end_date=end_date, trip=trip, destination=destination)
-        trip_destination.save()
+        if len(response) > 0:
+            destination.location = response[0]['formatted_address']
+            destination.lat = response[0]['geometry']['location']['lat']
+            destination.long = response[0]['geometry']['location']['lng']
+            destination.abbrev = get_airport_code(destination.location)
+            destination.save()
 
-        return CreateDestination(destination=destination)
+            trip_destination = TripDestination(start_date=start_date, end_date=end_date, trip=trip, destination=destination)
+            trip_destination.save()
 
-
+            return CreateDestination(destination=destination)
+        else:
+            return GraphQLError('Invalid location. Please try again.')
 
 class Query(ObjectType):
     all_trips = graphene.List(TripType, user_api_key=graphene.String(required=True))

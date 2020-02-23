@@ -204,6 +204,29 @@ class TripsTestCase(GraphQLTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(content, expected)
 
+    def test_create_trip_invalid_location(self):
+        response = self.query(
+            '''
+            mutation {
+                createTrip(userApiKey: "1234", origin: "asdljkghafdadh", name: "Invalid Trip") {
+                    trip {
+                        name
+                        origin
+                        originAbbrev
+                        originLat
+                        originLong
+                    }
+                }
+            }
+            ''',
+            op_name='createTrip'
+        )
+
+        content = json.loads(response.content)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content['errors'][0]['message'], 'Invalid location. Please try again.')
+
     def test_create_destination(self):
         response = self.query(
             '''
@@ -260,3 +283,34 @@ class TripsTestCase(GraphQLTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(content, expected)
+
+    def test_create_destination_invalid_location(self):
+        response = self.query(
+            '''
+            mutation {
+                createDestination(userApiKey: "1234", tripId: ''' + str(Trip.objects.first().id) + ''', location: "lfakjghhagdha", startDate: "2020-03-23", endDate: "2020-03-30") {
+                    destination {
+                        location
+                        abbrev
+                        lat
+                        long
+                        tripdestinationSet {
+                            startDate
+                            endDate
+                            trip {
+                                name
+                                origin
+                                originAbbrev
+                            }
+                        }
+                    }
+                }
+            }
+            ''',
+            op_name='createDestination'
+        )
+
+        content = json.loads(response.content)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content['errors'][0]['message'], 'Invalid location. Please try again.')
