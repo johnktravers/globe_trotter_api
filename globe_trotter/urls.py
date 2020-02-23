@@ -20,8 +20,10 @@ from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
 
 from globe_trotter.schema import schema
+from yelp_activities.views import yelp_activities
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
+    path('api/v1/yelp_activities/', yelp_activities, name='yelp_activities')
 ]
