@@ -3,7 +3,7 @@ import json
 
 from graphene_django.utils.testing import GraphQLTestCase
 from globe_trotter.schema import schema
-from trips.models import Trip, User, Destination, TripDestination
+from trips.models import Trip, User, Destination, TripDestination, Activity
 
 class TripsTestCase(GraphQLTestCase):
     GRAPHQL_SCHEMA = schema
@@ -367,6 +367,59 @@ class TripsTestCase(GraphQLTestCase):
                             }
                         }
                     }
+                }
+            }
+        }
+
+        content = json.loads(response.content)
+
+        self.assertResponseNoErrors(response)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content, expected)
+
+    def test_delete_activity(self):
+        activity = Activity.objects.create(
+            name =  'Castell de Montjuïc',
+            address =  'Carretera de Montjuïc, 66, 08038 Barcelona, Spain',
+            date = '2022-03-18',
+            category =  'Castles',
+            rating =  4.0,
+            image =  'https://s3-media1.fl.yelpcdn.com/bphoto/qvvaNwsAnLxa_g8_0IYiVA/o.jpg',
+            lat =  '41.3633333212171',
+            long =  '2.16618073941884',
+            trip_destination = TripDestination.objects.first()
+        )
+
+        response = self.query(
+            '''
+            mutation {
+                deleteActivity (userApiKey: "1234", activityId: ''' + str(activity.id) + ''') {
+                    name
+                    address
+                    date
+                    category
+                    rating
+                    image
+                    lat
+                    long
+                }
+            }
+            ''',
+            op_name='createActivity'
+        )
+
+        expected = {
+            "data": {
+                "deleteActivity": {
+                    "name": "Castell de Montjuïc",
+                    "address": "Carretera de Montjuïc, 66, 08038 Barcelona, Spain",
+                    "date": "2022-03-18",
+                    "category": "Castles",
+                    "rating": 4.0,
+                    "image": "https://s3-media1.fl.yelpcdn.com/bphoto/qvvaNwsAnLxa_g8_0IYiVA/o.jpg",
+                    "lat": "41.3633333212171",
+                    "long": "2.16618073941884"
                 }
             }
         }
