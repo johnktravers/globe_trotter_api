@@ -79,6 +79,29 @@ class CreateDestination(Mutation):
         else:
             return GraphQLError('Invalid location. Please try again.')
 
+class CreateActivity(Mutation):
+    activity = graphene.Field(ActivityType)
+
+    class Arguments:
+        user_api_key = graphene.String(required=True)
+        trip_destination_id = graphene.ID(required=True)
+        name = graphene.String(required=True)
+        date = graphene.types.datetime.Date(required=True)
+        address = graphene.String(required=True)
+        category = graphene.String(required=True)
+        rating = graphene.Float(required=True)
+        image = graphene.String(required=True)
+        lat = graphene.Float(required=True)
+        long = graphene.Float(required=True)
+
+    def mutate(self, info, user_api_key, trip_destination_id, name, date, address, category, rating, image, lat, long):
+        user = User.objects.get(api_key = user_api_key)
+        trip_destination = TripDestination.objects.filter(trip__user_id=user.id).get(id=trip_destination_id)
+        activity = Activity(name=name, date=date, address=address, category=category, rating=rating, image=image, lat=str(lat), long=str(long), trip_destination=trip_destination)
+        activity.save()
+
+        return CreateActivity(activity=activity)
+
 class Query(ObjectType):
     all_trips = graphene.List(TripType, user_api_key=graphene.String(required=True))
 
@@ -90,3 +113,4 @@ class Query(ObjectType):
 class Mutation(ObjectType):
     create_trip = CreateTrip.Field()
     create_destination = CreateDestination.Field()
+    create_activity = CreateActivity.Field()
