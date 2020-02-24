@@ -59,7 +59,7 @@ If you would like to examine test coverage, execute the following instead:
 
 ```
 coverage run --source='.' manage.py test
-open htmlcov/index.html
+coverage report
 ```
 
 ## How to Use / Endpoints
