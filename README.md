@@ -309,30 +309,30 @@ This mutation deletes a trip and all resources belonging to that trip  by `tripI
 Request body example:
 ```
 mutation {
-    deleteTrip (userApiKey: "<USER_API_KEY>", tripId: 5) {
-        id
-        name
-        origin
-        originAbbrev
-        originLat
-        originLong
-    }
+  deleteTrip (userApiKey: "<USER_API_KEY>", tripId: 5) {
+    id
+    name
+    origin
+    originAbbrev
+    originLat
+    originLong
+  }
 }
 ```
 
 Response body example:
 ```
 {
-    "data": {
-        "deleteTrip": {
-            "id": "5",
-            "name": "Celebratory Adventure",
-            "origin": "London, UK",
-            "originAbbrev": "LON",
-            "originLat": "51.5073509",
-            "originLong": "-0.1277583"
-        }
+  "data": {
+    "deleteTrip": {
+      "id": "5",
+      "name": "Celebratory Adventure",
+      "origin": "London, UK",
+      "originAbbrev": "LON",
+      "originLat": "51.5073509",
+      "originLong": "-0.1277583"
     }
+  }
 }
 ```
 
