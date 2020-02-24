@@ -403,6 +403,17 @@ class TripsTestCase(GraphQLTestCase):
                     image
                     lat
                     long
+
+    def test_delete_trip(self):
+        response = self.query(
+            '''
+            mutation {
+                deleteTrip (userApiKey: "1234", tripId: ''' + str(Trip.objects.first().id) + ''') {
+                    name
+                    origin
+                    originAbbrev
+                    originLat
+                    originLong
                 }
             }
             ''',
@@ -420,6 +431,13 @@ class TripsTestCase(GraphQLTestCase):
                     "image": "https://s3-media1.fl.yelpcdn.com/bphoto/qvvaNwsAnLxa_g8_0IYiVA/o.jpg",
                     "lat": "41.3633333212171",
                     "long": "2.16618073941884"
+                    
+                "deleteTrip": {
+                    "name": "Spring Break",
+                    "origin": "Denver, CO, USA",
+                    "originAbbrev": "DEN",
+                    "originLat": "39.7392",
+                    "originLong": "104.9903"
                 }
             }
         }
