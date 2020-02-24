@@ -231,7 +231,7 @@ class TripsTestCase(GraphQLTestCase):
         response = self.query(
             '''
             mutation {
-                createDestination(userApiKey: "1234", tripId: ''' + str(Trip.objects.first().id) + ''', location: "Stockholm, Sweden", startDate: "2020-03-23", endDate: "2020-03-30") {
+                createDestination(userApiKey: "1234", tripId: ''' + str(Trip.objects.first().id) + ''', location: "Stockholm, Sweden", startDate: "2020-03-24", endDate: "2020-03-30") {
                     destination {
                         location
                         abbrev
@@ -263,7 +263,7 @@ class TripsTestCase(GraphQLTestCase):
                         "long": "18.0685808",
                         "tripdestinationSet": [
                             {
-                                "startDate": "2020-03-23",
+                                "startDate": "2020-03-24",
                                 "endDate": "2020-03-30",
                                 "trip": {
                                     "name": "Spring Break",
@@ -288,7 +288,7 @@ class TripsTestCase(GraphQLTestCase):
         response = self.query(
             '''
             mutation {
-                createDestination(userApiKey: "1234", tripId: ''' + str(Trip.objects.first().id) + ''', location: "lfakjghhagdha", startDate: "2020-03-23", endDate: "2020-03-30") {
+                createDestination(userApiKey: "1234", tripId: ''' + str(Trip.objects.first().id) + ''', location: "lfakjghhagdha", startDate: "2020-03-24", endDate: "2020-03-30") {
                     destination {
                         location
                         abbrev
@@ -314,6 +314,37 @@ class TripsTestCase(GraphQLTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(content['errors'][0]['message'], 'Invalid location. Please try again.')
+
+    def test_create_destination_invalid_start_date(self):
+        response = self.query(
+            '''
+            mutation {
+                createDestination(userApiKey: "1234", tripId: ''' + str(Trip.objects.first().id) + ''', location: "Cape Town, South Africa", startDate: "2020-03-23", endDate: "2020-03-30") {
+                    destination {
+                        location
+                        abbrev
+                        lat
+                        long
+                        tripdestinationSet {
+                            startDate
+                            endDate
+                            trip {
+                                name
+                                origin
+                                originAbbrev
+                            }
+                        }
+                    }
+                }
+            }
+            ''',
+            op_name='createDestination'
+        )
+
+        content = json.loads(response.content)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content['errors'][0]['message'], 'Destination dates must be consecutive. Please try again.')
 
     def test_create_activity(self):
         response = self.query(
@@ -462,6 +493,6 @@ class TripsTestCase(GraphQLTestCase):
         content = json.loads(response.content)
 
         self.assertResponseNoErrors(response)
-        
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(content, expected)
