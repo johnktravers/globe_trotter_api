@@ -1,5 +1,7 @@
 # GlobeTrotter API
 
+![Travis CI Badge](https://travis-ci.com/johnktravers/globe_trotter_api.svg?branch=master)
+
 ## Description
 
 GlobeTrotter is an application used to plan multi-leg adventures and create day-by-day itineraries for each stop along the way. This API serves as the backend for the application. It utilizes GraphQL to handle database queries and mutations, as well as one RESTful endpoint to retrieve and format data from the Yelp API.
@@ -57,7 +59,7 @@ If you would like to examine test coverage, execute the following instead:
 
 ```
 coverage run --source='.' manage.py test
-open htmlcov/index.html
+coverage report
 ```
 
 ## How to Use / Endpoints
@@ -307,30 +309,30 @@ This mutation deletes a trip and all resources belonging to that trip  by `tripI
 Request body example:
 ```
 mutation {
-    deleteTrip (userApiKey: "<USER_API_KEY>", tripId: 5) {
-        id
-        name
-        origin
-        originAbbrev
-        originLat
-        originLong
-    }
+  deleteTrip (userApiKey: "<USER_API_KEY>", tripId: 5) {
+    id
+    name
+    origin
+    originAbbrev
+    originLat
+    originLong
+  }
 }
 ```
 
 Response body example:
 ```
 {
-    "data": {
-        "deleteTrip": {
-            "id": "5",
-            "name": "Celebratory Adventure",
-            "origin": "London, UK",
-            "originAbbrev": "LON",
-            "originLat": "51.5073509",
-            "originLong": "-0.1277583"
-        }
+  "data": {
+    "deleteTrip": {
+      "id": "5",
+      "name": "Celebratory Adventure",
+      "origin": "London, UK",
+      "originAbbrev": "LON",
+      "originLat": "51.5073509",
+      "originLong": "-0.1277583"
     }
+  }
 }
 ```
 
