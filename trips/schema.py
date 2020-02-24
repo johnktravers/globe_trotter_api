@@ -102,6 +102,24 @@ class CreateActivity(Mutation):
 
         return CreateActivity(activity=activity)
 
+class DeleteTrip(Mutation):
+    id = graphene.ID()
+    name = graphene.String()
+    origin = graphene.String()
+    origin_abbrev = graphene.String()
+    origin_lat = graphene.String()
+    origin_long = graphene.String()
+
+    class Arguments:
+        user_api_key = graphene.String(required=True)
+        trip_id = graphene.ID(required=True)
+
+    def mutate(self, info, user_api_key, trip_id):
+        user = User.objects.get(api_key = user_api_key)
+        trip = Trip.objects.filter(user_id=user.id).get(id=trip_id)
+        trip.delete()
+
+        return DeleteTrip(id=trip_id, name=trip.name, origin=trip.origin, origin_abbrev=trip.origin_abbrev, origin_lat=trip.origin_lat, origin_long=trip.origin_long)
 
 class DeleteActivity(Mutation):
     id = graphene.ID()
@@ -124,25 +142,6 @@ class DeleteActivity(Mutation):
         activity.delete()
 
         return DeleteActivity(id=activity_id, name=activity.name, address=activity.address, date=activity.date, category=activity.category, rating=activity.rating, image=activity.image, lat=activity.lat, long=activity.long)
-
-class DeleteTrip(Mutation):
-    id = graphene.ID()
-    name = graphene.String()
-    origin = graphene.String()
-    origin_abbrev = graphene.String()
-    origin_lat = graphene.String()
-    origin_long = graphene.String()
-
-    class Arguments:
-        user_api_key = graphene.String(required=True)
-        trip_id = graphene.ID(required=True)
-
-    def mutate(self, info, user_api_key, trip_id):
-        user = User.objects.get(api_key = user_api_key)
-        trip = Trip.objects.filter(user_id=user.id).get(id=trip_id)
-        trip.delete()
-
-        return DeleteTrip(id=trip_id, name=trip.name, origin=trip.origin, origin_abbrev=trip.origin_abbrev, origin_lat=trip.origin_lat, origin_long=trip.origin_long)
 
 class Query(ObjectType):
     all_trips = graphene.List(TripType, user_api_key=graphene.String(required=True))
