@@ -64,7 +64,7 @@
     "model": "trips.tripdestination",
     "pk": 2,
     "fields": {
-      "start_date": "2020-03-19",
+      "start_date": "2020-03-20",
       "end_date": "2020-03-23",
       "trip": 1,
       "destination": 2
@@ -74,7 +74,7 @@
     "model": "trips.tripdestination",
     "pk": 3,
     "fields": {
-      "start_date": "2020-03-23",
+      "start_date": "2020-03-24",
       "end_date": "2020-03-30",
       "trip": 1,
       "destination": 3
@@ -117,7 +117,7 @@
       "name": "Prague Castle",
       "address": "Pražský hrad, 119 08 Prague, Czech Republic",
       "category": "Landmarks & Historical Buildings",
-      "date": "2020-03-20",
+      "date": "2020-03-21",
       "rating": 4.5,
       "image": "https://s3-media2.fl.yelpcdn.com/bphoto/Z-dWN4czuAbE9YcMe6j4cg/o.jpg",
       "lat": "50.090356",
