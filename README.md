@@ -193,7 +193,7 @@ This mutation creates a destination for an authenticated user's trip given the `
 Request body example:
 ```
 mutation {
-  createDestination(userApiKey: "b9aead4b955bccb5c57ef830580f3de5", tripId: 2, location: "Stockholm, Sweden", startDate: "2021-12-18", endDate: "2021-12-24") {
+  createDestination(userApiKey: "<USER_API_KEY>", tripId: 2, location: "Stockholm, Sweden", startDate: "2021-12-18", endDate: "2021-12-24") {
     destination {
       id
       location
@@ -247,17 +247,6 @@ This mutation creates an activity for a destination on an authenticated user's t
 Request body example:
 ```
 mutation {
-  deleteActivity (userApiKey: "<USER_API_KEY>", activityId: 2) {
-    id
-    name
-    address
-    date
-    category
-    rating
-    image
-    lat
-    long
-
   createActivity(userApiKey: "<USER_API_KEY>", tripDestinationId: 1, name: "Arc de Triomf", date: "2020-03-18", address: "Passeig de Sant Joan, s/n, 08010 Barcelona, Spain", category: "Landmarks & Historical Buildings", rating: 4.0, image: "https://s3-media3.fl.yelpcdn.com/bphoto/bmWXY-0so2VYI_lYv-pbVg/o.jpg", lat: 41.3910646236233, long: 2.1806213137548) {
     activity {
       name
@@ -286,17 +275,6 @@ Response body example:
 ```
 {
   "data": {
-    "deleteActivity": {
-      "id": "2",
-      "name": "Castell de Montjuïc",
-      "address": "Carretera de Montjuïc, 66, 08038 Barcelona, Spain",
-      "date": "2022-03-18",
-      "category": "Castles",
-      "rating": 4.0,
-      "image": "https://s3-media1.fl.yelpcdn.com/bphoto/qvvaNwsAnLxa_g8_0IYiVA/o.jpg",
-      "lat": "41.3633333212171",
-      "long": "2.16618073941884"
-
     "createActivity": {
       "activity": {
         "name": "Arc de Triomf",
