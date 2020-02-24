@@ -1,5 +1,7 @@
 # GlobeTrotter API
 
+![Travis CI Badge](https://travis-ci.com/johnktravers/globe_trotter_api.svg?branch=master)
+
 ## Description
 
 GlobeTrotter is an application used to plan multi-leg adventures and create day-by-day itineraries for each stop along the way. This API serves as the backend for the application. It utilizes GraphQL to handle database queries and mutations, as well as one RESTful endpoint to retrieve and format data from the Yelp API.
