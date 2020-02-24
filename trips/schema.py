@@ -5,6 +5,7 @@ from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
 from trips.models import User, Trip, Destination, TripDestination, Activity
 from trips.services import get_coordinates, get_airport_code
+from datetime import datetime, timedelta
 
 class UserType(DjangoObjectType):
     class Meta:
@@ -62,10 +63,17 @@ class CreateDestination(Mutation):
     def mutate(self, info, user_api_key, trip_id, location, start_date, end_date):
         user = User.objects.get(api_key = user_api_key)
         trip = Trip.objects.filter(user_id=user.id).get(id=trip_id)
+        if len(TripDestination.objects.filter(trip_id=trip.id)) > 0:
+            current_end_date = TripDestination.objects.filter(trip_id=trip.id).last().end_date
+            next_start_date = current_end_date + timedelta(days=1)
+
+            if next_start_date != start_date:
+                return GraphQLError('Destination dates must be consecutive. Please try again.')
+
         destination = Destination()
         response = get_coordinates(location)
 
-        if len(response) > 0:
+        if len(response) > 0 :
             destination.location = response[0]['formatted_address']
             destination.lat = response[0]['geometry']['location']['lat']
             destination.long = response[0]['geometry']['location']['lng']
