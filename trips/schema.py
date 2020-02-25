@@ -73,7 +73,7 @@ class CreateDestination(Mutation):
         destination = Destination()
         response = get_coordinates(location)
 
-        if len(response) > 0 :
+        if len(response) > 0:
             destination.location = response[0]['formatted_address']
             destination.lat = response[0]['geometry']['location']['lat']
             destination.long = response[0]['geometry']['location']['lng']
